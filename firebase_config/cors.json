@@ -1,0 +1,9 @@
+[
+    {
+      "maxAgeSeconds": 3600,
+      "method": ["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"],
+      "origin": ["http://localhost:3000", "https://eliteperformance.vercel.app", "https://eliteperformance.hu", "http://localhost:3001"],
+      "responseHeader": ["Content-Type"]
+    }
+  ]
+  
