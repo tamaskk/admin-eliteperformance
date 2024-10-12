@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/db/connectToDB";
+import { connectToDatabase } from "../../../db/db";
 import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
