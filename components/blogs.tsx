@@ -18,6 +18,7 @@ const Blogs = () => {
     try {
       const blogsResponse = await getBlogs();
       setBlogs(blogsResponse.data);
+      console.log(blogsResponse.data);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
     } finally {
