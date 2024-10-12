@@ -180,10 +180,7 @@ useEffect(() => {
   };
 
   const deleteImage = () => {
-    const confirm = window.confirm("Biztosan törölni szeretnéd a képet?");
-    if (confirm) {
       setData({ ...data, coverImage: "" });
-    }
   };
 
   const idGenerator = () => {
@@ -281,13 +278,11 @@ useEffect(() => {
   };
 
   const deleteItem = (id: string) => {
-    const confirm = window.confirm("Biztosan törölni szeretnéd ezt az elemet?");
-    if (confirm) {
+    // const confirm = window.confirm("Biztosan törölni szeretnéd ezt az elemet?");
       const newPostItems =
         data.postItems?.filter((postItem: PostItems) => postItem.id !== id) ||
         null;
       setData({ ...data, postItems: newPostItems });
-    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
