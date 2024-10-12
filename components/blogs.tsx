@@ -27,7 +27,6 @@ const Blogs = () => {
   };
 
   useEffect(() => {
-
     if (!firstRender.current) {
       fetchBlogs();
     } else {
@@ -49,7 +48,9 @@ const Blogs = () => {
 
 
   const changeBlog = async (id: string) => {
+    console.log('1')
     router.push(`/blog-posts/${id}`);
+    console.log('2')
   };
 
   const deleteBlog = async (id: string) => {
