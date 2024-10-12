@@ -13,21 +13,21 @@ const Blogs = () => {
 
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      setLoading(true); // Set loading to true before fetching
-      try {
-        const blogsResponse = await getBlogs();
-        setBlogs(blogsResponse.data);
-        console.log(blogsResponse.data);
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false after fetching
-      }
-    };
+  const fetchBlogs = async () => {
+    setLoading(true); // Set loading to true before fetching
+    try {
+      const blogsResponse = await getBlogs();
+      setBlogs(blogsResponse.data);
+      console.log(blogsResponse.data);
+    } catch (error) {
+      console.error("Failed to fetch blogs:", error);
+    } finally {
+      setLoading(false); // Set loading to false after fetching
+    }
+  };
 
-    // Always call fetchBlogs, but check for first render
+  useEffect(() => {
+
     if (!firstRender.current) {
       fetchBlogs();
     } else {
@@ -93,12 +93,19 @@ const Blogs = () => {
           }}
         />
         <h1 className="font-bold text-3xl">Blog posztok</h1>
+        <div>
+          <button
+          onClick={() => fetchBlogs()}
+          >
+            Posztok lekérése
+          </button>
         <button
           onClick={() => createBlog()}
           className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
-        >
+          >
           Új poszt
         </button>
+          </div>
       </div>
       {
         loading && (
