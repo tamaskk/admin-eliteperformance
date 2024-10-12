@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from "@mui/icons-material/Email";
 
 const Nav = () => {
   const router = useRouter();
@@ -36,7 +36,7 @@ const Nav = () => {
       name: "Hírlevél",
       icon: <EmailIcon />,
       link: "/newsletter",
-    }
+    },
   ];
 
   const isActive = (menuLink: string) => {

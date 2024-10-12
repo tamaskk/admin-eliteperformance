@@ -46,7 +46,6 @@ const EditPostComponent = () => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     if (status === "loading") return;
@@ -88,7 +87,7 @@ const EditPostComponent = () => {
 
     try {
       await updateBlogItem(data);
-      alert("Blog sikeresen frissítve!");
+      toast.success("Blog sikeresen frissítve!");
       setData({
         title: "",
         header: "",
@@ -102,9 +101,9 @@ const EditPostComponent = () => {
       router.replace("/blog-posts");
     } catch (error) {
       if (error instanceof Error) {
-        alert(`Error: ${error.message}`);
+        toast.error(error.message);
       } else {
-        alert("Unknown error occurred");
+        toast.error("Unknown error occurred");
       }
     }
   };
@@ -156,7 +155,6 @@ const EditPostComponent = () => {
           .catch((error: unknown) => {
             if (error instanceof Error) {
               toast.error(error.message);
-              alert(error.message);
             } else {
               toast.error("Ismeretlen hiba történt.");
             }
@@ -164,10 +162,8 @@ const EditPostComponent = () => {
       })
       .catch((error: unknown) => {
         if (error instanceof Error) {
-          alert(error.message);
           toast.error(error.message);
         } else {
-          alert("Ismeretlen hiba történt.");
           toast.error("Ismeretlen hiba történt.");
         }
       })
@@ -319,19 +315,19 @@ const EditPostComponent = () => {
       <div className="flex flex-row items-center justify-between mb-5">
         <h1 className="font-bold text-3xl">Új poszt</h1>
         <div className="flex flex-row items-center justify-center gap-2">
-        <button
-        onClick={fetchBlog}
-        className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
-        >
-          Adatok lekérése
-        </button>
-        <button
-          onClick={() => createBlog()}
-          className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
+          <button
+            onClick={fetchBlog}
+            className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
           >
-          Mentés
-        </button>
-            </div>
+            Adatok lekérése
+          </button>
+          <button
+            onClick={() => createBlog()}
+            className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
+          >
+            Mentés
+          </button>
+        </div>
       </div>
       {loading && (
         <div className="w-full h-screen flex justify-center items-center">
@@ -640,7 +636,7 @@ const EditPostComponent = () => {
                           id={`imageInput-${item.id}`} // Assign unique ID here
                           onChange={(e) => {
                             if (!data.title) {
-                              alert("Először add meg a blog címét!");
+                              toast.error("Először add meg a blog címét!");
                               return;
                             }
 
@@ -648,7 +644,7 @@ const EditPostComponent = () => {
                               !e.target.files ||
                               e.target.files.length === 0
                             ) {
-                              alert("Nem választottál képet!");
+                              toast.error("Nem választottál képet!");
                               return;
                             }
 

@@ -32,13 +32,13 @@ const NewPostComponent = () => {
 
   useEffect(() => {
     if (status === "loading") return;
-    
-    if (!session) {
-      router.push('/login')
-    }
-  }, [session, status, router])
 
-useEffect(() => {
+    if (!session) {
+      router.push("/login");
+    }
+  }, [session, status, router]);
+
+  useEffect(() => {
     console.log(data);
   }, [data]);
 
@@ -53,17 +53,15 @@ useEffect(() => {
         coverImage: "",
         createdAt: new Date().toISOString(),
         id: "",
-        category: '',
+        category: "",
         postItems: [],
         updatedAt: new Date().toISOString(),
       });
     } catch (error) {
       if (error instanceof Error) {
-        alert(`Error: ${error.message}`);
         toast.dismiss();
         toast.error("Hiba történt a blog létrehozása során");
       } else {
-        alert("Unknown error occurred");
         toast.dismiss();
         toast.error("Ismeretlen hiba történt a blog létrehozása során");
       }
@@ -73,13 +71,13 @@ useEffect(() => {
   };
 
   const uploadFile = (image: File | null, id: string) => {
-    if (!data.title) return;
-
-    console.log(id);
+    if (data.title === "") {
+      toast.error("Először add meg a blog címét!");
+      return;
+    }
 
     if (!image) {
-      //   toast.error("Nem választottál képet!");
-      alert("Nem válaszotttál képet");
+      toast.error("Nem választottál képet!");
       return;
     }
 
@@ -93,7 +91,7 @@ useEffect(() => {
       `${data.title.replace(/ /g, "-").toLowerCase()}/cover`
     );
 
-    // toast.loading("Kép feltöltése folyamatban...");
+    toast.loading("Kép feltöltése folyamatban...");
 
     // Upload image to storage
     uploadBytes(id === "mainPic" ? imageRef : imageRef2, image)
@@ -117,30 +115,25 @@ useEffect(() => {
               }));
             }
 
-            alert("Kép sikeresen feltöltve");
-            // toast.success("Kép sikeresen feltöltve!");
+            toast.success("Kép sikeresen feltöltve!");
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              //   toast.error(error.message);
-              alert(error.message);
+              toast.error(error.message);
             } else {
-              alert("Ismeretlen hiba történt.");
-              //   toast.error("Ismeretlen hiba történt.");
+              toast.error("Ismeretlen hiba történt.");
             }
           });
       })
       .catch((error: unknown) => {
         if (error instanceof Error) {
-          alert(error.message);
-          //   toast.error(error.message);
+          toast.error(error.message);
         } else {
-          alert("Ismeretlen hiba történt.");
-          //   toast.error("Ismeretlen hiba történt.");
+          toast.error("Ismeretlen hiba történt.");
         }
       })
       .finally(() => {
-        // toast.dismiss();
+        toast.dismiss();
       });
   };
 
@@ -172,7 +165,7 @@ useEffect(() => {
   const deleteImage = () => {
     const confirm = window.confirm("Biztosan törölni szeretnéd a képet?");
     if (!confirm) return;
-      setData({ ...data, coverImage: "" });
+    setData({ ...data, coverImage: "" });
   };
 
   const idGenerator = () => {
@@ -272,10 +265,10 @@ useEffect(() => {
   const deleteItem = (id: string) => {
     const confirm = window.confirm("Biztosan törölni szeretnéd ezt az elemet?");
     if (!confirm) return;
-      const newPostItems =
-        data.postItems?.filter((postItem: PostItems) => postItem.id !== id) ||
-        null;
-      setData({ ...data, postItems: newPostItems });
+    const newPostItems =
+      data.postItems?.filter((postItem: PostItems) => postItem.id !== id) ||
+      null;
+    setData({ ...data, postItems: newPostItems });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -335,24 +328,27 @@ useEffect(() => {
           </div>
 
           <div className="flex flex-col mb-5">
-          <label htmlFor="" className="font-semibold mb-2">
+            <label htmlFor="" className="font-semibold mb-2">
               Típus
             </label>
-          <select
-            value={data.category} // Set the controlled value
-            onChange={(e) => {
-              setData({...data, category: e.target.value as BlogPost['category']})
-            }}
-            className="border border-gray-400 p-2 rounded-md w-[365px]"
-          >
-            <option value="" disabled>
-              Válassz egy típust
-            </option>
-            <option value="edzés">Edzés</option>
-            <option value="versenyfelkészülés">Versenyfelkészülés</option>
-            <option value="regeneráció">Regeneráció</option>
-            <option value="étrend">Étrend</option>
-          </select>
+            <select
+              value={data.category} // Set the controlled value
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  category: e.target.value as BlogPost["category"],
+                });
+              }}
+              className="border border-gray-400 p-2 rounded-md w-[365px]"
+            >
+              <option value="" disabled>
+                Válassz egy típust
+              </option>
+              <option value="edzés">Edzés</option>
+              <option value="versenyfelkészülés">Versenyfelkészülés</option>
+              <option value="regeneráció">Regeneráció</option>
+              <option value="étrend">Étrend</option>
+            </select>
           </div>
 
           <div className="flex flex-col">
@@ -628,12 +624,12 @@ useEffect(() => {
                         id={`imageInput-${item.id}`} // Assign unique ID here
                         onChange={(e) => {
                           if (!data.title) {
-                            alert("Először add meg a blog címét!");
+                            toast.error("Először add meg a blog címét!");
                             return;
                           }
 
                           if (!e.target.files || e.target.files.length === 0) {
-                            alert("Nem választottál képet!");
+                            toast.error("Nem választottál képet!");
                             return;
                           }
 
