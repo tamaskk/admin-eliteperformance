@@ -64,59 +64,6 @@ const EditPostComponent = () => {
     }
   }, [router.pathname]);
 
-  // const createBlogItemButton = async () => {
-  //   setData({
-  //     title: "Cím",
-  //     header: "Fejléc",
-  //     coverImage: "https://firebasestorage.googleapis.com/v0/b/eliteperformance-6fc5c.appspot.com/o/asd%2F605NXvUwnwKWu?alt=media&token=627dae89-542d-465a-88bc-c8cfa65bd4d7",
-  //     createdAt: new Date().toISOString(),
-  //     id: "",
-  //     postItems: [
-  //       {
-  //         type: "title",
-  //         title: "Cím",
-  //         id: "1",
-
-  //       },
-  //       {
-  //         type: "subTitle",
-  //         subTitle: "Alcím",
-  //         id: "2",
-  //       },
-  //       {
-  //         type: "paragraph",
-  //         paragraph: "Szöveg",
-  //         id: "3",
-  //       },
-  //       {
-  //         type: "image",
-  //         imageUrl: "https://firebasestorage.googleapis.com/v0/b/eliteperformance-6fc5c.appspot.com/o/asd%2F605NXvUwnwKWu?alt=media&token=627dae89-542d-465a-88bc-c8cfa65bd4d7",
-  //         id: "4",
-  //       },
-  //       {
-  //         type: "video",
-  //         video: "Videó",
-  //         id: "5",
-  //       },
-  //       {
-  //         type: "list",
-  //         list: ["Lista elem"],
-  //         id: "6",
-  //       },
-  //       {
-  //         type: "link",
-  //         link: "Link",
-  //         id: "7",
-  //       }
-  //     ],
-  //     updatedAt: new Date().toISOString(),
-  //   });
-  // }
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const createBlog = async () => {
     setData((prevData) => {
       const newData = {
@@ -150,7 +97,6 @@ const EditPostComponent = () => {
     }
   };
   
-
   const uploadFile = (image: File | null, id: string) => {
     if (!data.title) return;
 
@@ -245,9 +191,11 @@ const EditPostComponent = () => {
   };
 
   const deleteImage = () => {
-    const confirm = window.confirm("Biztosan törölni szeretnéd a képet?");
-    if (confirm) {
-      setData({ ...data, coverImage: "" });
+    if (typeof window !== "undefined") {
+      const confirm = window.confirm("Biztosan törölni szeretnéd a képet?");
+      if (confirm) {
+        setData({ ...data, coverImage: "" });
+      }
     }
   };
 
