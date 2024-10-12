@@ -27,7 +27,7 @@ const authOptions = {
         let client;
         try {
           client = await connectToDatabase();
-          const usersCollection = client.db().collection("users");
+          const usersCollection = client.db().collection("admin");
           const user = await usersCollection.findOne({
             email: credentials.email,
           });
