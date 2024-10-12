@@ -62,7 +62,7 @@ const EditPostComponent = () => {
         fetchBlog(id);
       }
     }
-  }, [router.pathname]);
+  }, []);
 
   const createBlog = async () => {
     setData((prevData) => {
