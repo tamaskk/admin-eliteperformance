@@ -53,6 +53,8 @@ const Blogs = () => {
   };
 
   const deleteBlog = async (id: string) => {
+    const confirmDelete = confirm("Biztosan törölni szeretnéd ezt a blog posztot?");
+    if (!confirmDelete) return;
     toast.loading("Törlés folyamatban...");
   
     try {

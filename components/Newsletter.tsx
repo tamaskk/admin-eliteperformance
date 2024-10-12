@@ -27,7 +27,7 @@ const NewsletterComponent = () => {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
         onClick={() => {
-          //   window.open("https://resend.com/login", "_blank");
+            window.open("https://resend.com/login", "_blank");
         }}
       >
         Kattints ide a Resend oldalára való navigáláshoz

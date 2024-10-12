@@ -180,6 +180,8 @@ useEffect(() => {
   };
 
   const deleteImage = () => {
+    const confirm = window.confirm("Biztosan törölni szeretnéd a képet?");
+    if (!confirm) return;
       setData({ ...data, coverImage: "" });
   };
 
@@ -278,7 +280,8 @@ useEffect(() => {
   };
 
   const deleteItem = (id: string) => {
-    // const confirm = window.confirm("Biztosan törölni szeretnéd ezt az elemet?");
+    const confirm = window.confirm("Biztosan törölni szeretnéd ezt az elemet?");
+    if (!confirm) return;
       const newPostItems =
         data.postItems?.filter((postItem: PostItems) => postItem.id !== id) ||
         null;

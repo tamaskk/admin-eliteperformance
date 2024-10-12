@@ -287,6 +287,8 @@ const EditPostComponent = () => {
   };
 
   const deleteItem = (id: string) => {
+    const confirmDelete = window.confirm("Biztosan törölni szeretnéd?");
+    if (!confirmDelete) return;
     const newPostItems =
       data.postItems?.filter((postItem: PostItems) => postItem.id !== id) ||
       null;
