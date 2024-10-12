@@ -49,7 +49,8 @@ const Blogs = () => {
 
   const changeBlog = async (id: string) => {
     console.log('1')
-    router.push(`/blog-posts/${id}`);
+    // router.push(`/blog-posts/${id}`);
+    window.location.href = `/blog-posts/${id}`;
     console.log('2')
   };
 
