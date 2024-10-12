@@ -49,10 +49,8 @@ const authOptions = {
           // Return necessary data for JWT token
           return {
             email: user.email,
-            firstName: user.firstName,
             id: user._id,
             accessToken, // Include the generated access token
-            customMessage: "Welcome back, " + user.firstName + "!",
           };
         } catch (error) {
           if (client) client?.close();
@@ -69,14 +67,12 @@ const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.firstName = user.firstName;
         token.accessToken = user.accessToken; // Include accessToken in the JWT token
       }
       return token;
     },
     async session({ session, token }) {
       session.user.id = token.id;
-      session.user.name = token.firstName;
       session.user.accessToken = token.accessToken; // Pass accessToken to the session
       return session;
     },
