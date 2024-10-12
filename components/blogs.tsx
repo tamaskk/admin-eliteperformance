@@ -50,6 +50,7 @@ const Blogs = () => {
     // Ensure you are getting the correct id
     if (!id) {
       console.error("No valid ID provided");
+      console.log(id)
       return;
     }
   
@@ -158,7 +159,7 @@ const Blogs = () => {
                 Megtekintés
               </button>
               <button
-                onClick={() => changeBlog(post._id ? post._id.toString() : "")}
+                onClick={() => changeBlog(post.id ? post.id.toString() : "")}
                 className="w-full h-auto py-2 bg-green-500 rounded-xl mb-4 hover:bg-green-600 transition-all duration-300"
               >
                 Szerkesztés
