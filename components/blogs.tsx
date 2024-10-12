@@ -93,8 +93,9 @@ const Blogs = () => {
           }}
         />
         <h1 className="font-bold text-3xl">Blog posztok</h1>
-        <div>
+        <div className="flex flex-row items-center justify-center gap-2">
           <button
+                    className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
           onClick={() => fetchBlogs()}
           >
             Posztok lekérése
