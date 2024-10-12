@@ -32,16 +32,14 @@ const EditPostComponent = () => {
   const { data: session, status } = useSession();
 
   const fetchBlog = async (id: any) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      console.log(id)
-      const blog = await getABlog(id as string);
+      const blog = await getABlog(id);
       setData(blog.data);
-      // Safely log the response without causing circular reference issues
       console.log("Blog data:", { ...blog.data });
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch blog:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -57,15 +55,23 @@ const EditPostComponent = () => {
 
   useEffect(() => {
     const id = router.query.id;
-    if (id) {
 
-      if (firstRender.current) {
-        firstRender.current = false;
-      } else {
-        fetchBlog(id);
-      }
+    if (status !== "loading" && session) {
+      fetchBlog(id);
     }
-  }, []);
+  }, [status, session]);
+
+  // useEffect(() => {
+  //   const id = router.query.id;
+  //   if (id) {
+
+  //     if (firstRender.current) {
+  //       firstRender.current = false;
+  //     } else {
+  //       fetchBlog(id);
+  //     }
+  //   }
+  // }, []);
 
   const createBlog = async () => {
     setData((prevData) => {
