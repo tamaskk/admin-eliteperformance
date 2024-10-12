@@ -1,7 +1,21 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const NewsletterComponent = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === "loading") return;
+
+    if (!session) {
+      router.push('/login')
+    }
+  }, [session, status, router])
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="text-black bg-white h-screen min-h-screen p-10 w-full overflow-y-auto flex flex-col items-start justify-start gap-5">
