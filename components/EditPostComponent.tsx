@@ -31,6 +31,19 @@ const EditPostComponent = () => {
   const [dragActive, setDragActive] = useState(false);
   const { data: session, status } = useSession();
 
+  const fetchBlog = async (id: any) => {
+    try {
+      setLoading(true);
+      const blog = await getABlog(id as string);
+      setData(blog.data);
+      console.log(blog.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch blog:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (status === "loading") return;
 
@@ -42,23 +55,11 @@ const EditPostComponent = () => {
   useEffect(() => {
     const id = router.query.id;
     if (id) {
-      const fetchBlog = async () => {
-        try {
-          setLoading(true);
-          const blog = await getABlog(id as string);
-          setData(blog.data);
-          console.log(blog.data);
-          setLoading(false);
-        } catch (error) {
-          console.error("Failed to fetch blog:", error);
-          setLoading(false);
-        }
-      };
 
       if (firstRender.current) {
         firstRender.current = false;
       } else {
-        fetchBlog();
+        fetchBlog(id);
       }
     }
   }, [router.pathname]);
@@ -305,17 +306,20 @@ const EditPostComponent = () => {
     <div className="text-black bg-white h-screen min-h-screen p-10 w-full overflow-y-auto">
       <div className="flex flex-row items-center justify-between mb-5">
         <h1 className="font-bold text-3xl">Új poszt</h1>
+        <div className="flex flex-row items-center justify-center gap-2">
+        <button
+        onClick={fetchBlog}
+        className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
+        >
+          Adatok lekérése
+        </button>
         <button
           onClick={() => createBlog()}
           className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
-        >
+          >
           Mentés
         </button>
-        <button
-        // onClick={createBlogItemButton}
-        >
-          kitöltés
-        </button>
+            </div>
       </div>
       {loading && (
         <div className="w-full h-screen flex justify-center items-center">
