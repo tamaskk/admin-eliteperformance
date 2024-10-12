@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   
     // // Validate the request data (adjust the required fields accordingly)
     if (!data.title || !data.createdAt || !data.updatedAt) {
-      return res.status(400).json({ message: "Invalid data" });
+      return res.status(400).json({ message: "Invalid data", data: data });
     }
 
     let client;

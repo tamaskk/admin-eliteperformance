@@ -82,7 +82,7 @@ const Blogs = () => {
     router.push(
       `https://eliteperformance.hu/blog-posts/${blogs
         ?.find((blog) => blog.id === id)
-        ?.title.replace(/ /g, "-")}`
+        ?.title.replace(/ /g, "-").toLowerCase()}`
     );
   };
 

@@ -19,11 +19,11 @@ const NewPostComponent = () => {
     title: "",
     header: "",
     coverImage: "",
-    createdAt: "",
+    createdAt: new Date().toISOString(),
     id: "",
     category: "",
     postItems: [], // Use an empty array here
-    updatedAt: "",
+    updatedAt: new Date().toISOString(),
   });
   const [selectedType, setSelectedType] = useState<string>("");
 
@@ -44,16 +44,6 @@ useEffect(() => {
 
   const createBlog = async () => {
     toast.loading("Blog létrehozása folyamatban...");
-    setData((prevData) => {
-      const newData = {
-        ...prevData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      return newData;
-    });
-
     try {
       await createBlogItem(data);
       toast.success("Blog sikeresen létrehozva!");
@@ -61,11 +51,11 @@ useEffect(() => {
         title: "",
         header: "",
         coverImage: "",
-        createdAt: "",
+        createdAt: new Date().toISOString(),
         id: "",
         category: '',
         postItems: [],
-        updatedAt: "",
+        updatedAt: new Date().toISOString(),
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -314,11 +304,6 @@ useEffect(() => {
           className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
         >
           Mentés
-        </button>
-        <button
-        // onClick={createBlogItemButton}
-        >
-          kitöltés
         </button>
       </div>
       <div className="flex flex-col sm:flex-row justify-center items-start w-full h-full mb-5 pb-5">

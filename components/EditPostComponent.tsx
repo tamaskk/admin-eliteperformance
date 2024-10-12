@@ -35,7 +35,10 @@ const EditPostComponent = () => {
     setLoading(true);
     try {
       const blog = await getABlog(id);
-      setData(blog.data);
+      setData({
+        ...blog.data,
+        updatedAt: new Date().toISOString(),
+      });
       console.log("Blog data:", { ...blog.data });
     } catch (error) {
       console.error("Failed to fetch blog:", error);
