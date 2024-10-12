@@ -27,10 +27,10 @@ const Blogs = () => {
   };
 
   useEffect(() => {
-    if (!firstRender.current) {
-      fetchBlogs();
-    } else {
+    if (firstRender.current) {
       firstRender.current = false;
+    } else {
+      fetchBlogs();
     }
   }, []);
 
