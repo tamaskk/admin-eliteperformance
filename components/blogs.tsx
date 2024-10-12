@@ -2,15 +2,14 @@ import { deleteBlogItem, getBlogs } from "@/services/blogService";
 import { BlogPost } from "@/types/blogTypes";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 
 const Blogs = () => {
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState<BlogPost[] | null>(null);
   const router = useRouter();
-  const firstRender = useRef(true);
-
+  
   const { data: session, status } = useSession();
 
   const fetchBlogs = async () => {
@@ -27,12 +26,10 @@ const Blogs = () => {
   };
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-    } else {
+    if (status !== "loading" && session) {
       fetchBlogs();
     }
-  }, []);
+  }, [status, session]);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -47,23 +44,20 @@ const Blogs = () => {
   }
 
   const changeBlog = async (id: string) => {
-    // Ensure you are getting the correct id
     if (!id) {
       console.error("No valid ID provided");
-      console.log(id)
+      console.log(id);
       return;
     }
-  
+
     console.log("Navigating to blog with ID:", id);
-  
+
     try {
-      // Use router.push to navigate programmatically
       await router.push(`/blog-posts/${id}`);
     } catch (error) {
       console.error("Failed to navigate:", error);
     }
   };
-  
 
   const deleteBlog = async (id: string) => {
     const confirmDelete = confirm(
@@ -74,7 +68,6 @@ const Blogs = () => {
 
     try {
       await deleteBlogItem(id);
-      // Ensure blogs is not undefined
       const newBlogs = blogs?.filter((blog) => blog.id !== id) || [];
       setBlogs(newBlogs.length > 0 ? newBlogs : null); // Set newBlogs or null if empty
       toast.success("Blog sikeresen törölve!");

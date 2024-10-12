@@ -34,15 +34,18 @@ const EditPostComponent = () => {
   const fetchBlog = async (id: any) => {
     try {
       setLoading(true);
+      console.log(id)
       const blog = await getABlog(id as string);
       setData(blog.data);
-      console.log(blog.data);
+      // Safely log the response without causing circular reference issues
+      console.log("Blog data:", { ...blog.data });
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch blog:", error);
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     if (status === "loading") return;
