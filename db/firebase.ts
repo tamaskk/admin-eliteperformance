@@ -44,6 +44,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export const storage = getStorage(app);
 
-export const storage = getStorage(app)
+// Analytics initialization should be done conditionally
+let analytics;
+
+if (typeof window !== "undefined") {
+  analytics = getAnalytics(app);
+}
+
+export { analytics }; 
