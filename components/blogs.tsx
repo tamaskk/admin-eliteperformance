@@ -69,11 +69,7 @@ const Blogs = () => {
   };
 
   const watchBlog = async (id: string) => {
-    if (window.location.href.includes("localhost")) {
-      router.push(`http://localhost:3001/blog-tudastar/${blogs?.find((blog) => blog.id === id)?.title.replace(/ /g, "-")}`);
-    } else {
       router.push(`https://eliteperformance.hu/blog-posts/${blogs?.find((blog) => blog.id === id)?.title.replace(/ /g, "-")}`);
-    }
   };
 
   const createBlog = async () => {
