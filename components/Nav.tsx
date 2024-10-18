@@ -22,10 +22,6 @@ const Nav = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const firstLetterCapital = (word: string | null | undefined) => {
-    return word && word.charAt(0).toUpperCase() + word.slice(1);
-  };
-
   const menus = [
     {
       name: "Blog posztok",
@@ -37,6 +33,16 @@ const Nav = () => {
       icon: <EmailIcon />,
       link: "/newsletter",
     },
+    {
+      name: "Árak",
+      icon: <ShoppingCartIcon />,
+      link: "/sales",
+    },
+    {
+      name: "Vélemények",
+      icon: <StarIcon />,
+      link: "/reviews",
+    }
   ];
 
   const isActive = (menuLink: string) => {
