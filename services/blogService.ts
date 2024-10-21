@@ -1,5 +1,4 @@
 import { BlogPost } from "@/types/blogTypes";
-import { toast } from "sonner";
 
 export const createBlogItem = async (data: BlogPost) => {
     const response = await fetch("/api/blog/createBlog", {
@@ -64,6 +63,22 @@ export const deleteBlogItem = async (id: string) => {
         method: "DELETE",
     });
     
+    if (!response.ok) {
+        throw new Error("Something went wrong");
+    }
+
+    return response.json();
+}
+
+export const publishChangeHandler = async ({isItPublished, id}: {isItPublished: boolean, id: string}) => {
+    const response = await fetch("/api/blog/publishChange", {
+        method: "POST",
+        body: JSON.stringify({ isItPublished, id }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
     if (!response.ok) {
         throw new Error("Something went wrong");
     }

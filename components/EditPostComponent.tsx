@@ -1,4 +1,4 @@
-import { getABlog, updateBlogItem } from "@/services/blogService";
+import { getABlog, publishChangeHandler, updateBlogItem } from "@/services/blogService";
 import { BlogPost, PostItems } from "@/types/blogTypes";
 import {
   getDownloadURL,
@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 import { storage } from "../db/firebase";
 
 const EditPostComponent = () => {
@@ -19,11 +19,12 @@ const EditPostComponent = () => {
     title: "",
     header: "",
     coverImage: "",
-    category: "",
+    category: [],
     createdAt: "",
     id: "",
     postItems: [], // Use an empty array here
     updatedAt: "",
+    isPublished: false,
   });
   const [selectedType, setSelectedType] = useState<string>("");
   const firstRender = useRef(true);
@@ -39,7 +40,7 @@ const EditPostComponent = () => {
         ...blog.data,
         updatedAt: new Date().toISOString(),
       });
-      console.log("Blog data:", { ...blog.data });
+      console.log(blog.data)
     } catch (error) {
       console.error("Failed to fetch blog:", error);
     } finally {
@@ -63,18 +64,6 @@ const EditPostComponent = () => {
     }
   }, [status, session]);
 
-  // useEffect(() => {
-  //   const id = router.query.id;
-  //   if (id) {
-
-  //     if (firstRender.current) {
-  //       firstRender.current = false;
-  //     } else {
-  //       fetchBlog(id);
-  //     }
-  //   }
-  // }, []);
-
   const createBlog = async () => {
     setData((prevData) => {
       const newData = {
@@ -94,9 +83,10 @@ const EditPostComponent = () => {
         coverImage: "",
         createdAt: "",
         id: "",
-        category: "",
+        category: [],
         postItems: [],
         updatedAt: "",
+        isPublished: false,
       });
       router.replace("/blog-posts");
     } catch (error) {
@@ -310,8 +300,35 @@ const EditPostComponent = () => {
     addBlogItem(value);
   };
 
+  const publishChange = async () => {
+    try {
+        if (!data._id) {
+            toast.error("Nincs ID a bloghoz!");
+            return;
+        }
+
+        const response = await publishChangeHandler({ isItPublished: data.isPublished, id: data._id });
+        
+            toast.success(data.isPublished ? "Blog elrejtve" : "Blog publikálva");
+            setData({ ...data, isPublished: !data.isPublished });
+    } catch (error) {
+        console.error("Failed to publish blog:", error);
+    }
+};
+
   return (
     <div className="text-black bg-white h-screen min-h-screen p-10 w-full overflow-y-auto">
+            <Toaster
+        duration={5000}
+        position="top-center"
+        toastOptions={{
+          style: {
+            color: "black",
+            textAlign: "center",
+            width: "fit-content",
+          },
+        }}
+      />
       <div className="flex flex-row items-center justify-between mb-5">
         <h1 className="font-bold text-3xl">Új poszt</h1>
         <div className="flex flex-row items-center justify-center gap-2">
@@ -320,6 +337,12 @@ const EditPostComponent = () => {
             className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
           >
             Adatok lekérése
+          </button>
+          <button
+            onClick={publishChange}
+                      className="bg-black text-white px-4 py-2 rounded-xl hover:bg-[#000001]"
+          >
+            {data.isPublished ? "Elrejtés" : "Publikálás"}
           </button>
           <button
             onClick={() => createBlog()}
@@ -362,6 +385,49 @@ const EditPostComponent = () => {
                 placeholder="Fejléc"
               />
             </div>
+
+            <div className="flex flex-col mb-5">
+  <label className="font-semibold mb-2">
+    Típus
+  </label>
+  {(["edzés", "versenyfelkészülés", "regeneráció", "étrend"] as Array<
+    "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend"
+  >).map((category) => (
+    <label key={category} className="mb-2">
+      <input
+        type="checkbox"
+        value={category}
+        checked={data.category.includes(category)} // Check if the category is selected
+        onChange={(e) => {
+          const selectedCategory = e.target.value as "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend";
+          
+          // Log the current state and the clicked category
+          console.log("Selected Category:", selectedCategory);
+          console.log("Before Update:", data.category);
+
+          if (e.target.checked) {
+            // Add the selected category to the array
+            setData({
+              ...data,
+              category: [...data.category, selectedCategory],
+            });
+          } else {
+            // Remove the category if unchecked
+            setData({
+              ...data,
+              category: data.category.filter((item) => item !== selectedCategory),
+            });
+          }
+
+          // Log the state after update
+          console.log("After Update:", data.category);
+        }}
+        className="mr-2"
+      />
+      {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize the first letter */}
+    </label>
+  ))}
+</div>
 
             <div className="flex flex-col">
               <label htmlFor="" className="font-semibold mb-2">

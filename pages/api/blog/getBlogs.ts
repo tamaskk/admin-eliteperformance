@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/db/db";
+import { BlogPost } from "@/types/blogTypes"; // Make sure BlogPost has the isPublished property
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -15,13 +16,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const db = client.db();
         const blogsCollection = db.collection("blogs");
 
-        // Fetch blogs and process them
+        // Fetch blogs from the database
         const blogs = await blogsCollection.find({}).toArray();
 
+        // Process the blogs and include the isPublished field
         const processedBlogs = blogs.map((blog) => {
             return {
                 ...blog,
                 id: blog._id.toString(),
+                isPublished: blog.isPublished,  // Ensure isPublished is included
                 _id: undefined,  // Optional, to hide the original _id field
                 postItems: undefined,
                 createdAt: undefined,
@@ -29,7 +32,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             };
         });
 
-        // Send the processed blogs data
+        // Filter the blogs that are published
+        // Send the published blogs data
         res.status(200).json({ data: processedBlogs });
 
     } catch (error: any) {

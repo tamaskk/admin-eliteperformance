@@ -145,6 +145,9 @@ const Blogs = () => {
               <h2 className="font-bold text-xl mt-4 text-center">
                 {post.title}
               </h2>
+              <h2 className={`text-center my-4 ${post.isPublished ? "text-green-500" : "text-red-500"}`}>
+                {post.isPublished ? "Publikálva" : "Nincs publikálva"}
+              </h2>
               <button
                 onClick={() => watchBlog(post.id.toString())}
                 className="w-full h-auto py-2 bg-yellow-500 rounded-xl my-4 hover:bg-yellow-600 transition-all duration-300"

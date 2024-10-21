@@ -60,10 +60,11 @@ export type BlogPost = {
   id: string;
   title: string;
   header: string;
-  category: 'edzés' |'versenyfelkészülés' | 'regeneráció' | 'étrend' | '';
+  category: ("" | "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend")[]; // Allow multiple values
   coverImage: string;
   createdAt: string;
   updatedAt: string;
   postItems: PostItems[] | null;
   _id?: string;
+  isPublished: boolean;
 };
