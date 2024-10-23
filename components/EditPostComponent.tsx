@@ -402,9 +402,6 @@ const EditPostComponent = () => {
           const selectedCategory = e.target.value as "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend";
           
           // Log the current state and the clicked category
-          console.log("Selected Category:", selectedCategory);
-          console.log("Before Update:", data.category);
-
           if (e.target.checked) {
             // Add the selected category to the array
             setData({

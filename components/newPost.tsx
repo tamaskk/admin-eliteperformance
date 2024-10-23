@@ -13,13 +13,9 @@ import { createBlogItem } from "@/services/blogService";
 import { Toaster, toast } from "sonner";
 import { useSession } from "next-auth/react";
 
-const categories: Array<"edzés" | "versenyfelkészülés" | "regeneráció" | "étrend"> = [
-  "edzés",
-  "versenyfelkészülés",
-  "regeneráció",
-  "étrend",
-];
-
+const categories: Array<
+  "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend"
+> = ["edzés", "versenyfelkészülés", "regeneráció", "étrend"];
 
 const NewPostComponent = () => {
   const router = useRouter();
@@ -40,8 +36,8 @@ const NewPostComponent = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -341,53 +337,55 @@ const NewPostComponent = () => {
             />
           </div>
 
-<div className="flex flex-col mb-5">
-  <label className="font-semibold mb-2">
-    Típus
-  </label>
-  {(["edzés", "versenyfelkészülés", "regeneráció", "étrend"] as Array<
-    "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend"
-  >).map((category) => (
-    <label key={category} className="mb-2">
-      <input
-        type="checkbox"
-        value={category}
-        checked={data.category.includes(category)} // Check if the category is selected
-        onChange={(e) => {
-          const selectedCategory = e.target.value as "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend";
-          
-          // Log the current state and the clicked category
-          console.log("Selected Category:", selectedCategory);
-          console.log("Before Update:", data.category);
+          <div className="flex flex-col mb-5">
+            <label className="font-semibold mb-2">Típus</label>
+            {(
+              ["edzés", "versenyfelkészülés", "regeneráció", "étrend"] as Array<
+                "edzés" | "versenyfelkészülés" | "regeneráció" | "étrend"
+              >
+            ).map((category) => (
+              <label key={category} className="mb-2">
+                <input
+                  type="checkbox"
+                  value={category}
+                  checked={data.category.includes(category)} // Check if the category is selected
+                  onChange={(e) => {
+                    const selectedCategory = e.target.value as
+                      | "edzés"
+                      | "versenyfelkészülés"
+                      | "regeneráció"
+                      | "étrend";
 
-          if (e.target.checked) {
-            // Add the selected category to the array
-            setData({
-              ...data,
-              category: [...data.category, selectedCategory],
-            });
-          } else {
-            // Remove the category if unchecked
-            setData({
-              ...data,
-              category: data.category.filter((item) => item !== selectedCategory),
-            });
-          }
+                    // Log the current state and the clicked category
+                    console.log("Selected Category:", selectedCategory);
+                    console.log("Before Update:", data.category);
 
-          // Log the state after update
-          console.log("After Update:", data.category);
-        }}
-        className="mr-2"
-      />
-      {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize the first letter */}
-    </label>
-  ))}
-</div>
+                    if (e.target.checked) {
+                      // Add the selected category to the array
+                      setData({
+                        ...data,
+                        category: [...data.category, selectedCategory],
+                      });
+                    } else {
+                      // Remove the category if unchecked
+                      setData({
+                        ...data,
+                        category: data.category.filter(
+                          (item) => item !== selectedCategory
+                        ),
+                      });
+                    }
 
-
-
-
-
+                    // Log the state after update
+                    console.log("After Update:", data.category);
+                  }}
+                  className="mr-2"
+                />
+                {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
+                {/* Capitalize the first letter */}
+              </label>
+            ))}
+          </div>
 
           <div className="flex flex-col">
             <label htmlFor="" className="font-semibold mb-2">
