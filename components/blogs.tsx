@@ -137,11 +137,15 @@ const Blogs = () => {
               key={post.id}
               className="flex flex-col shadow-lg p-4 rounded-xl"
             >
+              <div className="
+                w-full h-[300px]
+              ">
               <img
                 src={post.coverImage}
                 alt={post.title}
-                className="rounded-lg"
-              />
+                className="rounded-lg w-full h-full object-cover"
+                />
+                </div>
               <h2 className="font-bold text-xl mt-4 text-center">
                 {post.title}
               </h2>
