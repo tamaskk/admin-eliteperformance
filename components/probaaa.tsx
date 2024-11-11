@@ -2,7 +2,7 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import FontSize from "tiptap-extension-font-size";
@@ -14,6 +14,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { useMainContext } from "@/context/mainContext";
 import { useRouter } from "next/router";
 import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 interface BlogPost {
   title: string;
@@ -412,6 +413,19 @@ const Probaaaa = () => {
         >
           Kiemelés törlése
         </button>
+        <button
+          onClick={() => editor.chain().focus().setLink({ href: window.prompt("Add meg a linket") as string }).run()}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 ${ editor.isActive("link") ? "bg-blue-900" : "" }`}
+>
+          Link beszúrása
+        </button>
+        <button
+          onClick={() => editor.chain().focus().unsetLink().run()}
+          disabled={!editor.isActive("link")}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
+        >
+          Link törlése
+        </button>
       </div>
     </div>
   );
@@ -450,6 +464,12 @@ const extensions = [
     types: ["heading", "paragraph"],
   }),
   Highlight.configure({ multicolor: true }),
+  Link.configure({
+    openOnClick: false,
+    autolink: true,
+    defaultProtocol: 'https',
+  }),
+
 ];
 
 export default (setData: any, data: any) => {
