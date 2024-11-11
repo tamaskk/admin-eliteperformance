@@ -79,7 +79,7 @@ const Blogs = () => {
   };
 
   const watchBlog = async (id: string) => {
-    router.push(
+    router.replace(
       `https://eliteperformance.hu/blog-tudastar/${blogs
         ?.find((blog) => blog.id === id)
         ?.title.replace(/ /g, "-").toLowerCase()}`
@@ -148,12 +148,6 @@ const Blogs = () => {
               <h2 className={`text-center my-4 ${post.isPublished ? "text-green-500" : "text-red-500"}`}>
                 {post.isPublished ? "Publikálva" : "Nincs publikálva"}
               </h2>
-              <button
-                onClick={() => watchBlog(post.id.toString())}
-                className="w-full h-auto py-2 bg-yellow-500 rounded-xl my-4 hover:bg-yellow-600 transition-all duration-300"
-              >
-                Megtekintés
-              </button>
               <button
                 onClick={() => changeBlog(post.id ? post.id.toString() : "")}
                 className="w-full h-auto py-2 bg-green-500 rounded-xl mb-4 hover:bg-green-600 transition-all duration-300"
