@@ -80,7 +80,7 @@ const Blogs = () => {
 
   const watchBlog = async (id: string) => {
     router.push(
-      `https://eliteperformance.hu/blog-posts/${blogs
+      `https://eliteperformance.hu/blog-tudastar/${blogs
         ?.find((blog) => blog.id === id)
         ?.title.replace(/ /g, "-").toLowerCase()}`
     );

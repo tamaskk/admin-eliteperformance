@@ -64,7 +64,7 @@ export type BlogPost = {
   coverImage: string;
   createdAt: string;
   updatedAt: string;
-  postItems: PostItems[] | null;
+  postItems: string;
   _id?: string;
   isPublished: boolean;
 };
